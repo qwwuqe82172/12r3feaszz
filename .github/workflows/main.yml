@@ -11,18 +11,22 @@ jobs:
       - name: Step 1 - Connect Cloudflare WARP VPN via TunSafe
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/wgcf-profile.conf" -OutFile "$env:USERPROFILE\wgcf-profile.conf"
-          aria2c -x 8 -s 8 https://tunsafe.com/downloads/TunSafe-TAP-9.21.2.exe
-          Start-Process ".\TunSafe-TAP-9.21.2.exe" -ArgumentList "/S" -Wait
+          aria2 -x 1 -s 1 -o wgcf.exe https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/wgcf.exe
+          aria2 -x 16 -s 16 -o TunSafe.zip https://tunsafe.com/downloads/TunSafe-1.5-rc2.zip
+          aria2 -x 16 -s 16 -o TunSafe-TAP.exe https://tunsafe.com/downloads/TunSafe-TAP-9.21.2.exe
 
-          aria2c -x 16 -s 16 -k 1M "https://tunsafe.com/downloads/TunSafe-1.5-rc2.zip" -o tunsafe.zip
+          Start-Process .\TunSafe-TAP.exe -ArgumentList "/S" -Wait
 
-          Expand-Archive -Path "tunsafe.zip" -DestinationPath "$env:USERPROFILE\tunsafe" -Force
+          Expand-Archive TunSafe.zip -DestinationPath TunSafe
 
-          Start-Process -FilePath "$env:USERPROFILE\tunsafe\TunSafe.exe" -ArgumentList '--connect', "$env:USERPROFILE\wgcf-profile.conf"
+          .\wgcf.exe register
+          .\wgcf.exe generate
+          Remove-Item -Path "TunSafe\TunSafe.conf" -Force -ErrorAction SilentlyContinue
+          Copy-Item wgcf-profile.conf TunSafe\TunSafe.conf
 
-          Start-Sleep -Seconds 10  # Chờ VPN kết nối
+          Start-Process -FilePath TunSafe\TunSafe.exe -ArgumentList "/connect TunSafe.conf" -WorkingDirectory "TunSafe"
 
+          Start-Sleep -Seconds 8 # Chờ kết nối VPN
       - name: Step 2 - Run your script
         shell: powershell
         run: |
