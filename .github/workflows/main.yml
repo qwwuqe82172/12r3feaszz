@@ -8,7 +8,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 0
     steps:
-      - name: Step 2 - Run your script
+      - name: Run script
         shell: powershell
         run: |
           iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "argo.ps1"
