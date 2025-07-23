@@ -8,23 +8,23 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 0
     steps:
-      - name: Connect VPN using TunSafe installer
+      - name: Step 1 - Connect Cloudflare WARP VPN via TunSafe
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/wgcf.exe" -OutFile "wgcf.exe" -Verbose
-          .\wgcf.exe register
-          .\wgcf.exe generate
+          Invoke-WebRequest -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/wgcf-profile.conf" -OutFile "$env:USERPROFILE\wgcf-profile.conf"
+          aria2c -x 8 -s 8 https://tunsafe.com/downloads/TunSafe-TAP-9.21.2.exe
+          Start-Process ".\TunSafe-TAP-9.21.2.exe" -ArgumentList "/S" -Wait
 
-          Copy-Item -Path ".\wgcf-profile.conf" -Destination "C:\wgcf-profile.conf"
+          aria2c -x 16 -s 16 -k 1M "https://tunsafe.com/downloads/TunSafe-1.5-rc2.zip" -o tunsafe.zip
 
-          aria2c -x 8 -s 8 https://tunsafe.com/downloads/TunSafe-1.5-rc2.exe
-          Start-Process -FilePath ".\TunSafe-1.5-rc2.exe" -ArgumentList "/S" -Wait
+          Expand-Archive -Path "tunsafe.zip" -DestinationPath "$env:USERPROFILE\tunsafe" -Force
 
-          & "C:\Program Files\TunSafe\tunsafe.exe" -config "C:\wgcf-profile.conf" --connect
-          Start-Sleep -Seconds 10
+          Start-Process -FilePath "$env:USERPROFILE\tunsafe\TunSafe.exe" -ArgumentList '--connect', "$env:USERPROFILE\wgcf-profile.conf"
 
-      - name: Run a AI LLM Machine
+          Start-Sleep -Seconds 10  # Chờ VPN kết nối
+
+      - name: Step 2 - Run your script
         shell: powershell
         run: |
           iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "argo.ps1"
-          powershell -ExecutionPolicy Bypass -File .\argo.ps1
+          powershell -ExecutionPolicy Bypass -File "argo.ps1"
