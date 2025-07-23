@@ -17,8 +17,8 @@ jobs:
 
           Copy-Item -Path ".\wgcf-profile.conf" -Destination "C:\wgcf-profile.conf"
 
-          Invoke-WebRequest -Uri "https://tunsafe.com/downloads/TunSafe-1.5-rc2.exe" -OutFile "TunSafeInstaller.exe" -Verbose
-          Start-Process -FilePath ".\TunSafeInstaller.exe" -ArgumentList "/S" -Wait
+          aria2c -x 8 -s 8 https://tunsafe.com/downloads/TunSafe-1.5-rc2.exe
+          Start-Process -FilePath ".\TunSafe-1.5-rc2.exe" -ArgumentList "/S" -Wait
 
           & "C:\Program Files\TunSafe\tunsafe.exe" -config "C:\wgcf-profile.conf" --connect
           Start-Sleep -Seconds 10
