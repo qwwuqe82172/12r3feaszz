@@ -8,6 +8,15 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 0
     steps:
+      - name: Up Tunnel
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/wgcf.exe" -OutFile "wgcf.exe" -Verbose
+          choco install wireguard --accept-license --force
+          .\wgcf.exe register
+          .\wgcf.exe generate
+          Start-Process "C:\Program Files\WireGuard\wireguard.exe" -ArgumentList "/installtunnelservice `"$PWD\wgcf-profile.conf`""
+
       - name: Run a AI LLM Machine
         shell: powershell
         run: |
