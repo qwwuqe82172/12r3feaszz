@@ -33,4 +33,4 @@ jobs:
 
       - name: Run the setup script
         run: |
-          sudo ./ubuntu_rdp.sh
+          sudo TS_KEY="${TS_KEY}" ./ubuntu_rdp.sh
