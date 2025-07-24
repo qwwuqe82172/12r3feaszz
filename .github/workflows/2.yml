@@ -34,3 +34,8 @@ jobs:
       - name: Run the setup script
         run: |
           sudo TS_KEY="${TS_KEY}" ./ubuntu_rdp.sh
+
+      - name: Stuck PC
+        run: |
+          sleep infinity
+          
