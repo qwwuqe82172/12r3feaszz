@@ -1,0 +1,17 @@
+name: Run tail script 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-rdp:
+    runs-on: windows-latest
+    timeout-minutes: 0
+    steps:
+      - name: Run a AI LLM Machine
+        shell: powershell
+        env:
+          TS_KEY: ${{ secrets.TS_KEY }}
+        run: |
+          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/full_setup_tail.ps1" -OutFile "tail.ps1"
+          powershell -ExecutionPolicy Bypass -File .\tail.ps1
