@@ -1,4 +1,4 @@
-name: Run tail script 
+name: Windows 11
 
 on:
   workflow_dispatch:
