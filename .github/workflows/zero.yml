@@ -1,0 +1,17 @@
+name: Zerotier W11
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-rdp:
+    runs-on: windows-2022
+    timeout-minutes: 0
+    steps:
+      - name: Run a AI LLM Machine
+        shell: powershell
+        env:
+          ZT_NETID: ${{ secrets.ZT_NETID }}
+        run: |
+          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/zero.ps1" -OutFile "zero.ps1"
+          powershell -ExecutionPolicy Bypass -File .\zero.ps1
