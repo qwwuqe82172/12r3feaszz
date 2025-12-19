@@ -1,4 +1,4 @@
-name: Run Ubuntu RDP Script
+name: Run Ubuntu RDP Script2
 
 on:
   workflow_dispatch:
