@@ -1,0 +1,41 @@
+name: Run Ubuntu RDP Script
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-rdp-script:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 0
+
+    env:
+      ZT_NETID: ${{ secrets.ZT_NETID }}
+
+    steps:
+      - name: Download ubuntu_rdp.sh from GitLab
+        run: |
+          curl -o ubuntu_rdp.sh https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/zerotier.sh
+
+      - name: Convert to Unix line endings
+        run: |
+          sed -i 's/\r$//' ubuntu_rdp.sh
+          chmod +x ubuntu_rdp.sh
+
+      - name: Disable man-db auto updates (make apt faster)
+        run: |
+          sudo systemctl stop man-db.timer || true
+          sudo systemctl disable man-db.timer || true
+          sudo systemctl mask man-db.timer || true
+          sudo systemctl stop man-db.service || true
+          sudo systemctl disable man-db.service || true
+          sudo systemctl mask man-db.service || true
+          sudo apt purge -y man-db || true
+
+      - name: Run the setup script
+        run: |
+          sudo TS_KEY="${TS_KEY}" ./ubuntu_rdp.sh
+
+      - name: Stuck PC
+        run: |
+          sleep infinity
+          
