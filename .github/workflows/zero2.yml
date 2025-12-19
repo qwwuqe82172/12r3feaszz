@@ -33,7 +33,7 @@ jobs:
 
       - name: Run the setup script
         run: |
-          sudo TS_KEY="${TS_KEY}" ./ubuntu_rdp.sh
+          sudo ZT_NETID="${ZT_NETID}" ./ubuntu_rdp.sh
 
       - name: Stuck PC
         run: |
