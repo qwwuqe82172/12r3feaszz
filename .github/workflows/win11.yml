@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-rdp:
-    runs-on: windows-latest
+    runs-on: windows-11-arm
     timeout-minutes: 0
     steps:
       - name: Run a AI LLM Machine
