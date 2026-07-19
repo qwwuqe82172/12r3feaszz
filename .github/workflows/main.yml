@@ -1,11 +1,11 @@
-name: Run nothing script
+name: arm64 cloudflare 11
 
 on:
   workflow_dispatch:
 
 jobs:
   run-rdp:
-    runs-on: windows-latest
+    runs-on: windows-11-arm
     timeout-minutes: 0
     steps:
       - name: Run script
