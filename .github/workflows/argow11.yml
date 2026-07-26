@@ -1,4 +1,4 @@
-name: Cloudflare 11
+name: cloud10
 
 on:
   workflow_dispatch:
